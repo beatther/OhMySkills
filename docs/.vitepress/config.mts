@@ -6,6 +6,7 @@ export default defineConfig({
   title: "OhMySkills",
   description: "Top 100 Agent Skills & Prompts Collection",
   base: '/OhMySkills/',
+  cleanUrls: true,
   
   // Design: Blue primary color is handled in CSS, but check standard config
   appearance: 'dark', // Default to dark mode or auto? Design docs imply clean look. Let's stick to default/auto.
