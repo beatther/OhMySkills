@@ -2,26 +2,41 @@
 import { computed } from 'vue';
 import { Download, Monitor, Brain, Calendar, ArrowLeft } from 'lucide-vue-next';
 import { type Skill } from '../data/skills';
+import { useData } from 'vitepress';
 import DownloadButton from './DownloadButton.vue';
 
 const props = defineProps<{
   skill: Skill
 }>();
 
+const { lang } = useData();
+
 const formatDate = (dateString: string) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
+  return new Date(dateString).toLocaleDateString(lang.value === 'zh' ? 'zh-CN' : 'en-US', {
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
 };
+
+const texts = computed(() => {
+  const isZh = lang.value === 'zh';
+  return {
+    back: isZh ? '返回技能列表' : 'Back to Skills',
+    updated: isZh ? '更新于' : 'Updated',
+    downloads: isZh ? '下载量' : 'downloads',
+    prompt: isZh ? '技能 Prompt' : 'Skill Prompt',
+    installation: isZh ? '安装说明' : 'Installation',
+    installGuide: isZh ? '点击上方下载按钮获取技能包。解压后将文件夹放入您的平台技能目录：' : 'Click the download button above to get the skill package. Unzip it and place the folder in your platform\'s skills directory:'
+  };
+});
 </script>
 
 <template>
   <div class="max-w-4xl mx-auto pb-20">
-    <a href="/skills/" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 mb-8 transition-colors no-underline">
+    <a :href="lang === 'zh' ? '/OhMySkills/zh/skills/' : '/OhMySkills/skills/'" class="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-blue-600 mb-8 transition-colors no-underline">
       <ArrowLeft class="w-4 h-4" />
-      Back to Skills
+      {{ texts.back }}
     </a>
 
     <!-- Header -->
@@ -44,12 +59,12 @@ const formatDate = (dateString: string) => {
             <span class="w-1 h-1 rounded-full bg-slate-300"></span>
             <div class="flex items-center gap-1.5">
               <Calendar class="w-4 h-4" />
-              <span>Updated {{ formatDate(skill.updatedAt) }}</span>
+              <span>{{ texts.updated }} {{ formatDate(skill.updatedAt) }}</span>
             </div>
             <span class="w-1 h-1 rounded-full bg-slate-300"></span>
              <div class="flex items-center gap-1.5">
               <Download class="w-4 h-4" />
-              <span>{{ skill.downloads.toLocaleString() }} downloads</span>
+              <span>{{ skill.downloads.toLocaleString() }} {{ texts.downloads }}</span>
             </div>
           </div>
         </div>
@@ -79,7 +94,7 @@ const formatDate = (dateString: string) => {
     <div class="prose dark:prose-invert max-w-none">
       <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
         <Brain class="w-5 h-5 text-blue-500" />
-        Skill Prompt
+        {{ texts.prompt }}
       </h2>
       <div class="relative group">
         <div class="absolute right-4 top-4 z-10 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -91,9 +106,9 @@ const formatDate = (dateString: string) => {
       </div>
 
       <!-- Installation Guide (Mock) -->
-      <h2 class="text-xl font-bold mt-12 mb-4">Installation</h2>
+      <h2 class="text-xl font-bold mt-12 mb-4">{{ texts.installation }}</h2>
       <p>
-        Click the download button above to get the skill package. Unzip it and place the folder in your platform's skills directory:
+        {{ texts.installGuide }}
       </p>
       <div class="bg-slate-100 dark:bg-slate-900 p-4 rounded-lg font-mono text-sm border border-slate-200 dark:border-slate-800 mt-2">
         ~/.claude/skills/{{ skill.id }}/
