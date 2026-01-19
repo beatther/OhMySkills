@@ -1,9 +1,11 @@
 // docs/.vitepress/config.ts
 import { defineConfig } from 'vitepress'
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   title: "OhMySkills",
   description: "Top 100 Agent Skills & Prompts Collection",
+  base: '/OhMySkills/',
   
   // Design: Blue primary color is handled in CSS, but check standard config
   appearance: 'dark', // Default to dark mode or auto? Design docs imply clean look. Let's stick to default/auto.
@@ -87,5 +89,11 @@ export default defineConfig({
         }
       }
     }
+  },
+
+  vite: {
+    plugins: [
+      tailwindcss()
+    ]
   }
 })

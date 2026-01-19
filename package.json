@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@tailwindcss/vite": "^4.1.18",
     "@types/file-saver": "^2.0.7",
     "autoprefixer": "^10.4.23",
     "lucide-vue-next": "^0.562.0",
