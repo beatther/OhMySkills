@@ -4,8 +4,8 @@ layout: page
 
 <script setup>
 import { useData } from 'vitepress'
-import { skills } from '../../.vitepress/theme/data/skills'
-import SkillDetail from '../../.vitepress/theme/components/SkillDetail.vue'
+import { skills } from '../.vitepress/theme/data/skills'
+import SkillDetail from '../.vitepress/theme/components/SkillDetail.vue'
 
 const { params } = useData()
 
