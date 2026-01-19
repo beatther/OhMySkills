@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { Star, Download } from 'lucide-vue-next';
 import { type Skill } from '../data/skills';
+import { withBase } from 'vitepress';
 import DownloadButton from './DownloadButton.vue';
 
 const props = defineProps<{
@@ -19,7 +20,7 @@ const formatDownloads = (downloads: number) => {
 </script>
 
 <template>
-  <a :href="`/skills/${skill.id}`" class="block no-underline relative group/card">
+  <a :href="withBase(`/skills/${skill.id}`)" class="block no-underline relative group/card">
     <div 
       class="group h-full bg-white dark:bg-slate-800 rounded-xl border p-6 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-200"
       :class="selected ? 'border-blue-500 ring-1 ring-blue-500 bg-blue-50/10 dark:bg-blue-900/10' : 'border-slate-200 dark:border-slate-700'"
