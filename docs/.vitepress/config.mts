@@ -1,4 +1,4 @@
-// docs/.vitepress/config.mts
+// docs/.vitepress/config.ts
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({

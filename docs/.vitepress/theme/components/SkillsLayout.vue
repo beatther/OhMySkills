@@ -1,8 +1,9 @@
 // docs/.vitepress/theme/components/SkillsLayout.vue
 <script setup lang="ts">
 import { ref, computed } from 'vue';
-import { skills } from '../data/skills';
+import { skills, type Skill } from '../data/skills';
 import SkillCard from './SkillCard.vue';
+import BatchDownload from './BatchDownload.vue';
 import { Search } from 'lucide-vue-next';
 
 // Filters
@@ -26,6 +27,22 @@ const filteredSkills = computed(() => {
     return searchMatch && catMatch;
   });
 });
+
+// Selection Logic
+const selectedSkills = ref<Skill[]>([]);
+
+const toggleSelection = (skill: Skill) => {
+  const index = selectedSkills.value.findIndex(s => s.id === skill.id);
+  if (index === -1) {
+    selectedSkills.value.push(skill);
+  } else {
+    selectedSkills.value.splice(index, 1);
+  }
+};
+
+const clearSelection = () => {
+  selectedSkills.value = [];
+};
 </script>
 
 <template>
@@ -74,7 +91,9 @@ const filteredSkills = computed(() => {
       <SkillCard 
         v-for="skill in filteredSkills" 
         :key="skill.id" 
-        :skill="skill" 
+        :skill="skill"
+        :selected="selectedSkills.some(s => s.id === skill.id)"
+        @toggle-select="toggleSelection(skill)"
       />
     </div>
 
@@ -89,4 +108,10 @@ const filteredSkills = computed(() => {
       </button>
     </div>
   </div>
+  
+  <Teleport to="body">
+    <div v-if="selectedSkills.length > 0" class="fixed bottom-6 right-6 z-50">
+       <BatchDownload :selected-skills="selectedSkills" @clear="clearSelection" />
+    </div>
+  </Teleport>
 </template>
